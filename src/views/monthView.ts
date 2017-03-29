@@ -19,7 +19,7 @@ export default class MonthView implements IView {
 			day: moment.Moment                    = this.$scope.view.moment.clone().startOf('month').startOf('week').hour(12),
 			rows: { [week: number]: IViewItem[] } = {},
 			firstWeek: number                     = day.week(),
-			lastWeek: number                      = firstWeek + 5;
+			lastWeek: number                      = this.$scope.view.moment.clone().endOf('month').week();
 
 		this.rows = [];
 		for (let week = firstWeek; week <= lastWeek; week++)
