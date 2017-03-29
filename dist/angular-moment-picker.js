@@ -54,6 +54,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	exports.__esModule = true;
 	var angular = __webpack_require__(2);
 	var provider_1 = __webpack_require__(3);
 	exports.Provider = provider_1["default"];
@@ -81,6 +82,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	exports.__esModule = true;
 	var angular = __webpack_require__(2);
 	var Provider = (function () {
 	    function Provider() {
@@ -129,7 +131,6 @@
 	    };
 	    return Provider;
 	}());
-	exports.__esModule = true;
 	exports["default"] = Provider;
 
 
@@ -138,6 +139,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	exports.__esModule = true;
 	var angular = __webpack_require__(2);
 	var moment = __webpack_require__(5);
 	var helpers_1 = __webpack_require__(6);
@@ -255,6 +257,7 @@
 	                        hour: 'm{1,2}|[Ll]{3,4}|LT(?!S)',
 	                        /* formats: m,mm,LLL,LLLL,lll,llll,LT */
 	                        minute: 's{1,2}|S{1,}|X|LTS'
+	                        /* formats: s,ss,S,SS,SSS..,X,LTS */
 	                    },
 	                    detectMinMax: function () {
 	                        $scope.detectedMinView = $scope.detectedMaxView = undefined;
@@ -449,8 +452,10 @@
 	                        $ctrl.$render();
 	                    }
 	                    // view initialization
-	                    if ($scope.startDate)
-	                        $scope.view.moment = utility_1.toMoment($scope.startDate, $scope.format, $scope.locale);
+	                    if ($scope.startDate) {
+	                        $scope.startMoment = utility_1.toMoment($scope.startDate, $scope.format, $scope.locale);
+	                        $scope.view.moment = $scope.startMoment.clone();
+	                    }
 	                    else if (utility_1.isValidMoment($ctrl.$modelValue))
 	                        $scope.view.moment = $ctrl.$modelValue.clone();
 	                    $scope.view.update();
@@ -515,7 +520,8 @@
 	                $scope.$watch(function () { return utility_1.toValue($scope.startDate, $scope.format, $scope.locale); }, function (newViewValue, oldViewValue) {
 	                    if (newViewValue == oldViewValue)
 	                        return;
-	                    $scope.view.moment = utility_1.valueToMoment(newViewValue, $scope);
+	                    $scope.startMoment = utility_1.valueToMoment(newViewValue, $scope);
+	                    $scope.view.moment = $scope.startMoment.clone();
 	                    $scope.view.update();
 	                    $scope.view.render();
 	                });
@@ -558,7 +564,6 @@
 	    }
 	    return Directive;
 	}());
-	exports.__esModule = true;
 	exports["default"] = Directive;
 
 
@@ -573,6 +578,7 @@
 /***/ function(module, exports) {
 
 	"use strict";
+	exports.__esModule = true;
 	/**
 	 * Offset getter method from jQuery: https://github.com/jquery/jquery/blob/3.1.1/src/offset.js#L78
 	 */
@@ -602,6 +608,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	exports.__esModule = true;
 	var decadeView_1 = __webpack_require__(8);
 	exports.DecadeView = decadeView_1["default"];
 	var yearView_1 = __webpack_require__(10);
@@ -621,6 +628,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	exports.__esModule = true;
 	var utility_1 = __webpack_require__(9);
 	var DecadeView = (function () {
 	    function DecadeView($scope, $ctrl, provider) {
@@ -662,7 +670,6 @@
 	    };
 	    return DecadeView;
 	}());
-	exports.__esModule = true;
 	exports["default"] = DecadeView;
 
 
@@ -671,6 +678,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	exports.__esModule = true;
 	var angular = __webpack_require__(2);
 	var moment = __webpack_require__(5);
 	exports.KEYS = { up: 38, down: 40, left: 37, right: 39, escape: 27, enter: 13 };
@@ -745,6 +753,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	exports.__esModule = true;
 	var moment = __webpack_require__(5);
 	var utility_1 = __webpack_require__(9);
 	var YearView = (function () {
@@ -788,7 +797,6 @@
 	    };
 	    return YearView;
 	}());
-	exports.__esModule = true;
 	exports["default"] = YearView;
 
 
@@ -797,6 +805,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	exports.__esModule = true;
 	var angular = __webpack_require__(2);
 	var moment = __webpack_require__(5);
 	var utility_1 = __webpack_require__(9);
@@ -822,7 +831,7 @@
 	                    month: day.month(),
 	                    date: day.date(),
 	                    "class": [
-	                        _this.$scope.keyboard && day.isSame(_this.$scope.view.moment, 'day') ? 'highlighted' : '',
+	                        _this.$scope.keyboard && day.isSame(_this.$scope.view.moment, 'day') || day.isSame(_this.$scope.startMoment, 'day') ? 'highlighted' : '',
 	                        !!_this.$scope.today && day.isSame(new Date(), 'day') ? 'today' : '',
 	                        !selectable || day.month() != month ? 'disabled' : utility_1.isValidMoment(_this.$ctrl.$modelValue) && day.isSame(_this.$ctrl.$modelValue, 'day') ? 'selected' : ''
 	                    ].join(' ').trim(),
@@ -847,7 +856,6 @@
 	    };
 	    return MonthView;
 	}());
-	exports.__esModule = true;
 	exports["default"] = MonthView;
 
 
@@ -856,6 +864,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	exports.__esModule = true;
 	var utility_1 = __webpack_require__(9);
 	var DayView = (function () {
 	    function DayView($scope, $ctrl, provider) {
@@ -899,7 +908,6 @@
 	    };
 	    return DayView;
 	}());
-	exports.__esModule = true;
 	exports["default"] = DayView;
 
 
@@ -908,6 +916,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	exports.__esModule = true;
 	var angular = __webpack_require__(2);
 	var moment = __webpack_require__(5);
 	var utility_1 = __webpack_require__(9);
@@ -976,7 +985,6 @@
 	    };
 	    return HourView;
 	}());
-	exports.__esModule = true;
 	exports["default"] = HourView;
 
 
@@ -985,6 +993,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	exports.__esModule = true;
 	var angular = __webpack_require__(2);
 	var utility_1 = __webpack_require__(9);
 	var MinuteView = (function () {
@@ -1053,7 +1062,6 @@
 	    };
 	    return MinuteView;
 	}());
-	exports.__esModule = true;
 	exports["default"] = MinuteView;
 
 

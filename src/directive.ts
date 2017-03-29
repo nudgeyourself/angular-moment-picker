@@ -310,7 +310,10 @@ export default class Directive implements ng.IDirective {
 					$ctrl.$render();
 				}
 				// view initialization
-				if ($scope.startDate) $scope.view.moment = toMoment($scope.startDate, $scope.format, $scope.locale);
+				if ($scope.startDate) {
+					$scope.startMoment = toMoment($scope.startDate, $scope.format, $scope.locale);
+					$scope.view.moment = $scope.startMoment.clone();
+				}
 				else if (isValidMoment($ctrl.$modelValue)) $scope.view.moment = $ctrl.$modelValue.clone();
 				$scope.view.update();
 				$scope.view.render();
@@ -381,8 +384,8 @@ export default class Directive implements ng.IDirective {
 			});
 			$scope.$watch(() => toValue($scope.startDate, $scope.format, $scope.locale), (newViewValue, oldViewValue) => {
 				if (newViewValue == oldViewValue) return;
-
-				$scope.view.moment = valueToMoment(newViewValue, $scope);
+				$scope.startMoment = valueToMoment(newViewValue, $scope);
+				$scope.view.moment = $scope.startMoment.clone();
 				$scope.view.update();
 				$scope.view.render();
 			});
