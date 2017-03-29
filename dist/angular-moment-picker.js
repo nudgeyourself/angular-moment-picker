@@ -554,8 +554,7 @@
 	                };
 	                $scope.input
 	                    .on('focus click', function () { return $scope.$evalAsync($scope.view.open); })
-	                    .on('blur', function () { return $scope.$evalAsync($scope.view.close); })
-	                    .on('keydown', function (e) { return $scope.keyboard && $scope.$evalAsync(function () { return $scope.view.keydown(e); }); });
+	                    .on('blur', function () { return $scope.$evalAsync($scope.view.close); });
 	                $scope.contents.on('click', function () { return focusInput(); });
 	                $scope.container.on('mousedown', function (e) { return focusInput(e); });
 	                angular.element(_this.$window).on('resize scroll', $scope.view.position);
