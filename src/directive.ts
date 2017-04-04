@@ -246,7 +246,13 @@ export default class Directive implements ng.IDirective {
 						}
 					}
 				},
-				setParentView: () => { $scope.view.change($scope.views.all[Math.max(0, $scope.views.all.indexOf($scope.view.selected) - 1)]); },
+				setParentView: () => {
+					if ($scope.limits.isSelectable(moment(), $scope.view.precision())) {
+						$scope.view.moment = moment().startOf($scope.view.precision());
+						$scope.view.update();
+						$scope.view.render();
+					}
+				},
 				// body
 				render: () => {
 					let momentPrevious = $scope.view.moment.clone().startOf($scope.view.precision()).subtract($scope.view.unit(), $scope.view.precision()),
