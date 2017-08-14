@@ -21,6 +21,10 @@ export default class MonthView implements IView {
 			firstWeek: number                     = day.week(),
 			lastWeek: number                      = this.$scope.view.moment.clone().endOf('month').week();
 
+		if (firstWeek > lastWeek) {
+			lastWeek = firstWeek + lastWeek;
+		}
+
 		this.rows = [];
 		for (let week = firstWeek; week <= lastWeek; week++)
 			rows[week] = Array.apply(null, Array(this.perLine)).map(() => {

@@ -825,6 +825,9 @@
 	    MonthView.prototype.render = function () {
 	        var _this = this;
 	        var month = this.$scope.view.moment.month(), day = this.$scope.view.moment.clone().startOf('month').startOf('week').hour(12), rows = {}, firstWeek = day.week(), lastWeek = this.$scope.view.moment.clone().endOf('month').week();
+	        if (firstWeek > lastWeek) {
+	            lastWeek = firstWeek + lastWeek;
+	        }
 	        this.rows = [];
 	        for (var week = firstWeek; week <= lastWeek; week++)
 	            rows[week] = Array.apply(null, Array(this.perLine)).map(function () {
