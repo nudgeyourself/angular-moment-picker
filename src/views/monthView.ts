@@ -22,7 +22,7 @@ export default class MonthView implements IView {
 			lastWeek: number                      = this.$scope.view.moment.clone().endOf('month').week();
 
 		if (firstWeek > lastWeek) {
-			lastWeek = firstWeek + lastWeek;
+			lastWeek = Math.max(moment(new Date(this.$scope.view.moment.year(), 11, 31)).isoWeek(), moment(new Date(this.$scope.view.moment.year(), 11, 31-7)).isoWeek()) + lastWeek;
 		}
 
 		this.rows = [];
